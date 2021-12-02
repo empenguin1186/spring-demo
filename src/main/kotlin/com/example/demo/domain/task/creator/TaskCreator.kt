@@ -24,4 +24,4 @@ sealed interface TaskCreateParameter{
     val taskName: String
 }
 
-private class TaskCreateParameterImpl(override val taskName: String): TaskCreateParameter
+private data class TaskCreateParameterImpl(override val taskName: String): TaskCreateParameter
