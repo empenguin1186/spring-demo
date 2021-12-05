@@ -28,6 +28,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
 	implementation("mysql:mysql-connector-java:8.0.27")
+	// https://mvnrepository.com/artifact/org.springframework.retry/spring-retry
+	implementation("org.springframework.retry:spring-retry:1.3.1")
 	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
