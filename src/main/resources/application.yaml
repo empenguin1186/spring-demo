@@ -2,6 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/sample?useSSL=false
     username: root
+    password: ${DATASOURCE_PASSWORD:hoge}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       connection-timeout: 500

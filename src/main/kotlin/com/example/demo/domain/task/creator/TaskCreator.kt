@@ -18,6 +18,11 @@ class TaskCreator(
         val activityHistory = ActivityHistory.createFromTask(task)
         activityHistoryRepository.insert(activityHistory)
     }
+
+    fun createWithEventListener(taskName: String) {
+        val task = Task.create(taskName)
+        taskRepository.insert(task)
+    }
 }
 
 sealed interface TaskCreateParameter{

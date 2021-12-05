@@ -2,11 +2,14 @@ package com.example.demo.infra.repository
 
 import com.example.demo.domain.activityhistory.ActivityHistory
 import com.example.demo.domain.activityhistory.ActivityHistoryRepository
+import com.example.demo.infra.repository.mapper.ActivityHistoryMapper
 import org.springframework.stereotype.Repository
 
 @Repository
-class ActivityHistoryRepositoryImpl: ActivityHistoryRepository {
+class ActivityHistoryRepositoryImpl(
+    private val activityHistoryMapper: ActivityHistoryMapper
+): ActivityHistoryRepository {
     override fun insert(activityHistory: ActivityHistory) {
-        throw Exception()
+        activityHistoryMapper.insert(activityHistory)
     }
 }

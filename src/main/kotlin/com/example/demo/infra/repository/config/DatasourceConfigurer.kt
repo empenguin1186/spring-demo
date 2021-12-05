@@ -11,13 +11,9 @@ class DatasourceConfigurer {
 
     @Bean
     fun datasource(properties: DataSourceProperties): DataSource {
-        val datasource: HikariDataSource = properties
+        return properties
             .initializeDataSourceBuilder()
             .type(HikariDataSource::class.java)
             .build()
-
-        datasource.password = "hoge"
-
-        return datasource
     }
 }
