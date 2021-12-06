@@ -10,6 +10,6 @@ class CreateTaskUseCase(
 ) {
     @Transactional
     fun execute(taskName: String) {
-        taskCreator.create(taskName)
+        taskCreator.createWithEventListener(taskName)
     }
 }
