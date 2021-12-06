@@ -4,6 +4,7 @@ import com.example.demo.domain.activityhistory.ActivityHistory
 import com.example.demo.domain.activityhistory.ActivityHistoryRepository
 import com.example.demo.domain.task.Task
 import com.example.demo.domain.task.TaskRepository
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 
 @Service
@@ -19,6 +20,7 @@ class TaskCreator(
         activityHistoryRepository.insert(activityHistory)
     }
 
+    @Retryable(interceptor = "dataSourceRetryInterceptor")
     fun createWithEventListener(taskName: String) {
         val task = Task.create(taskName)
         taskRepository.insert(task)

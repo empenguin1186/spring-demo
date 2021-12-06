@@ -4,6 +4,7 @@ import com.example.demo.domain.exception.DataSourceRetryableException
 import com.example.demo.infra.retry.config.DataSourceRetryConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.retry.interceptor.RetryOperationsInterceptor
 import org.springframework.retry.support.RetryTemplate
 import org.springframework.retry.support.RetryTemplateBuilder
 
@@ -17,5 +18,12 @@ class RetryConfigurer {
             .fixedBackoff(dataSourceRetryConfiguration.fixedBackOffMs)
             .retryOn(DataSourceRetryableException::class.java)
             .build()
+    }
+
+    @Bean
+    fun dataSourceRetryInterceptor(retryTemplate: RetryTemplate): RetryOperationsInterceptor {
+        return RetryOperationsInterceptor().also {
+            it.setRetryOperations(retryTemplate)
+        }
     }
 }
