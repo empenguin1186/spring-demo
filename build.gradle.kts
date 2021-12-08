@@ -10,6 +10,7 @@ plugins {
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
+val junitJupiterVersion = "5.4.2"
 
 repositories {
 	mavenCentral()
@@ -32,6 +33,15 @@ dependencies {
 	implementation("org.springframework.retry:spring-retry:1.3.1")
 	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.0")
+
+	// テストでコンテナを使用する
+	testImplementation("org.testcontainers:mysql:1.16.2")
+	testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+	testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+	testImplementation("org.testcontainers:testcontainers:1.16.2")
+	testImplementation("org.testcontainers:junit-jupiter:1.16.2")
 }
 
 tasks.withType<KotlinCompile> {

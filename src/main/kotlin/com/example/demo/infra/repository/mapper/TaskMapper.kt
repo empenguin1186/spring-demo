@@ -20,5 +20,5 @@ interface TaskMapper {
     fun insert(task: Task)
 
     @Select("""SELECT * FROM Tasks WHERE id = #{taskId}""")
-    fun findByTaskId(taskId: Int)
+    fun findByTaskId(taskId: Int): List<Task>
 }
