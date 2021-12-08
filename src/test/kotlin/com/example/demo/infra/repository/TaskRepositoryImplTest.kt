@@ -28,6 +28,7 @@ internal class TaskRepositoryImplTest {
             withUsername("devuser")
             withPassword("devuser")
             withDatabaseName("devdb")
+            withInitScript("initdb/schema.sql")
         }
 
         @DynamicPropertySource
