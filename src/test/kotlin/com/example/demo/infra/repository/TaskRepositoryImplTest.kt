@@ -42,8 +42,8 @@ internal class TaskRepositoryImplTest {
 
     @Test
     fun `hoge`() {
-        val task = Task.create("task1", "assignee")
+        val task = Task.create("task1", "assigned")
         taskMapper.insert(task)
-        val tasks = taskMapper.findByTaskId(1)
+        val tasks = taskMapper.findByAssigned("assigned")
     }
 }
