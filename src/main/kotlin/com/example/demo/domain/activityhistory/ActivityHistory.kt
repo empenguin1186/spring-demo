@@ -7,9 +7,9 @@ class ActivityHistory private constructor(
     val detail: String
 ){
     companion object {
-        fun createFromTask(task: Task) = ActivityHistory("${task.taskName} が作成されました")
+        fun createFromTask(task: Task) = ActivityHistory("${task.taskName} が作成されました. 担当者は ${task.assigned} です")
 
-        fun createFromTaskCreatedEvent(event: TaskCreatedEvent) = ActivityHistory("${event.taskName} が作成されました")
+        fun createFromTaskCreatedEvent(event: TaskCreatedEvent) = ActivityHistory("${event.taskName} が作成されました. 担当者は ${event.assigned} です")
     }
 }
 

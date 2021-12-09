@@ -5,14 +5,15 @@ import com.example.demo.domain.task.creator.TaskCreateParameter
 
 /** タスク */
 class Task private constructor(
-    val taskName: String
+    val taskName: String,
+    val assigned: String
 ) : DomainEventStorable() {
     companion object {
-        fun create(taskCreateParameter: TaskCreateParameter) = Task(taskCreateParameter.taskName)
+        fun create(taskCreateParameter: TaskCreateParameter) = Task(taskCreateParameter.taskName, taskCreateParameter.assigned)
 
-        fun create(taskName: String): Task {
-            val task = Task(taskName = taskName)
-            task.addDomainEvent(TaskCreatedEvent(taskName))
+        fun create(taskName: String, assigned: String): Task {
+            val task = Task(taskName = taskName, assigned = assigned)
+            task.addDomainEvent(TaskCreatedEvent(taskName, assigned))
             return task
         }
     }

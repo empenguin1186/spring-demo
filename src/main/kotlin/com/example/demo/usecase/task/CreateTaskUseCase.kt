@@ -9,7 +9,7 @@ class CreateTaskUseCase(
     private val taskCreator: TaskCreator
 ) {
     @Transactional
-    fun execute(taskName: String) {
-        taskCreator.createWithEventListener(taskName)
+    fun execute(taskName: String, assigned: String) {
+        taskCreator.createWithEventListener(taskName, assigned)
     }
 }

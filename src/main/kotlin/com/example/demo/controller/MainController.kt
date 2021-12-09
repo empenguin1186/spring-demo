@@ -12,7 +12,7 @@ class MainController(
 ) {
     @GetMapping
     fun get(): String {
-        createTaskUseCase.execute("hoge")
+        createTaskUseCase.execute("hoge", "assignee")
         return "Hello, World"
     }
 }

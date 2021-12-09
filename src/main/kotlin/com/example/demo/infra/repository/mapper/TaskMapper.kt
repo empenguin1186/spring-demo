@@ -12,9 +12,11 @@ interface TaskMapper {
 
     @Insert("""
        INSERT INTO Tasks (
-           task_name
+           task_name,
+           assigned
        ) VALUES (
-           #{taskName}
+           #{taskName},
+           #{assigned}
        )
     """)
     fun insert(task: Task)

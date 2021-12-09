@@ -18,7 +18,7 @@ class DatasourceRetryListener : RetryListenerSupport() {
         callback: RetryCallback<T, E>?,
         throwable: Throwable?
     ) {
-        logger.info("RetryableException thrown.")
+        logger.error("RetryableException thrown.")
         super.onError(context, callback, throwable)
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository
 class ActivityHistoryRepositoryImpl(
     private val activityHistoryMapper: ActivityHistoryMapper
 ): ActivityHistoryRepository {
+
     override fun insert(activityHistory: ActivityHistory) {
         activityHistoryMapper.insert(activityHistory)
     }
