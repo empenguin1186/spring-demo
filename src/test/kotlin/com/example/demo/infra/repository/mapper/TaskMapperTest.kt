@@ -121,4 +121,28 @@ internal class TaskMapperTest {
             }.assertAll()
         }
     }
+
+    @Nested
+    inner class DeleteByTaskNameAndAssignee {
+        @Test
+        fun `Taskを作成および取得できることを確認するテスト`() {
+            // given
+            val taskName = "task1"
+            val assignee = "assignee1"
+            val expected = Task.create(taskName, assignee)
+            taskMapper.insert(expected)
+
+            // when
+            taskMapper.deleteByTaskNameAndAssignee(taskName, assignee)
+
+            // then
+            val actual = taskMapper.findByTaskNameAndAssignee(taskName, assignee)
+            SoftAssertions().apply {
+                actual.apply {
+                    assertThat(actual).isNull()
+                    assertThat(actual?.assignee).isEqualTo("assignee1")
+                }
+            }.assertAll()
+        }
+    }
 }
