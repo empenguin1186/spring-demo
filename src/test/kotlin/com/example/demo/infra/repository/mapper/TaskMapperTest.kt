@@ -140,7 +140,6 @@ internal class TaskMapperTest {
             SoftAssertions().apply {
                 actual.apply {
                     assertThat(actual).isNull()
-                    assertThat(actual?.assignee).isEqualTo("assignee1")
                 }
             }.assertAll()
         }
