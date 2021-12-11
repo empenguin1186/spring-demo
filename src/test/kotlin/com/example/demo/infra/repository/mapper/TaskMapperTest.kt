@@ -139,8 +139,7 @@ internal class TaskMapperTest {
             val actual = taskMapper.findByTaskNameAndAssignee(taskName, assignee)
             SoftAssertions().apply {
                 actual.apply {
-                    assertThat(actual).isNotNull
-                    assertThat(actual).isEqualTo(expected)
+                    assertThat(actual).isNull()
                 }
             }.assertAll()
         }
