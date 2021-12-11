@@ -28,6 +28,9 @@ interface TaskMapper {
     @Select("""SELECT * FROM Tasks WHERE task_name = #{taskName} AND assignee = #{assignee}""")
     fun findByTaskNameAndAssignee(taskName: String, assignee: String): Task?
 
+    /**
+     * タスク名と担当者が合致したタスクを削除する
+     */
     @Delete("""DELETE FROM Tasks WHERE task_name = #{taskName} AND assignee = #{assignee}""")
     fun deleteByTaskNameAndAssignee(taskName: String, assignee: String)
 }
