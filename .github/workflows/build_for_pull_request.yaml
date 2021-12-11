@@ -23,7 +23,7 @@ jobs:
 
       - name: Set DB_TEST_ENABLE Variable
         run: |
-          if [[ ${{ steps.changed-files.outputs.all_modified_files }} =~ src/main/kotlin/com/example/demo/infra/repository/mapper ]]; then
+          if grep -q -e "src/main/kotlin/com/example/demo/infra/repository/mapper" "${{ steps.changed-files.outputs.all_modified_files }}"; then
             echo "DB_TEST_ENABLE=true" >> $GITHUB_ENV
             echo "Data Access Test will be executed."
           else
