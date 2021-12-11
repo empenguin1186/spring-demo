@@ -49,7 +49,7 @@ internal class TaskMapperTest {
      * https://junit.org/junit5/docs/current/user-guide/#writing-tests-nested
      */
     @Nested
-    inner class FindByAssigned {
+    inner class FindByAssignee {
         @Test
         fun `Taskを作成および取得できることを確認するテスト`() {
             // given
@@ -59,7 +59,7 @@ internal class TaskMapperTest {
 
             // when
             taskMapper.insert(task)
-            val tasks = taskMapper.findByAssigned(assignee)
+            val tasks = taskMapper.findByAssignee(assignee)
 
             // then
             SoftAssertions().apply {
@@ -75,7 +75,7 @@ internal class TaskMapperTest {
             val assignee = "assignee1"
 
             // when
-            val tasks = taskMapper.findByAssigned(assignee)
+            val tasks = taskMapper.findByAssignee(assignee)
 
             // then
             SoftAssertions().apply {
@@ -85,7 +85,7 @@ internal class TaskMapperTest {
     }
 
     @Nested
-    inner class FindByTaskNameAndAssigned {
+    inner class FindByTaskNameAndAssignee {
         @Test
         fun `Taskを作成および取得できることを確認するテスト`() {
             // given
@@ -95,7 +95,7 @@ internal class TaskMapperTest {
 
             // when
             taskMapper.insert(expected)
-            val actual = taskMapper.findByTaskNameAndAssigned(taskName, assignee)
+            val actual = taskMapper.findByTaskNameAndAssignee(taskName, assignee)
 
             // then
             SoftAssertions().apply {
@@ -113,7 +113,7 @@ internal class TaskMapperTest {
             val assignee = "assignee1"
 
             // when
-            val tasks = taskMapper.findByTaskNameAndAssigned(taskName, assignee)
+            val tasks = taskMapper.findByTaskNameAndAssignee(taskName, assignee)
 
             // then
             SoftAssertions().apply {

@@ -22,8 +22,8 @@ interface TaskMapper {
     fun insert(task: Task)
 
     @Select("""SELECT * FROM Tasks WHERE assignee = #{assignee}""")
-    fun findByAssigned(assignee: String): List<Task>
+    fun findByAssignee(assignee: String): List<Task>
 
     @Select("""SELECT * FROM Tasks WHERE task_name = #{taskName} AND assignee = #{assignee}""")
-    fun findByTaskNameAndAssigned(taskName: String, assignee: String): Task?
+    fun findByTaskNameAndAssignee(taskName: String, assignee: String): Task?
 }
