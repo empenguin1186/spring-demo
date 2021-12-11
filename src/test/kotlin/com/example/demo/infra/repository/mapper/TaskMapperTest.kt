@@ -4,6 +4,7 @@ import com.example.demo.domain.task.Task
 import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -17,6 +18,7 @@ import org.testcontainers.utility.DockerImageName
 @MybatisTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@EnabledIfEnvironmentVariable(named = "DB_TEST_ENABLE", matches = "true")
 internal class TaskMapperTest {
 
     @Autowired
@@ -26,9 +28,9 @@ internal class TaskMapperTest {
         @Container
         @JvmStatic
         val mysqlContainer = MySQLContainer<Nothing>(DockerImageName.parse("mysql")).apply {
-            withUsername("devuser")
-            withPassword("devuser")
-            withDatabaseName("devdb")
+            withUsername("user")
+            withPassword("mysql")
+            withDatabaseName("testdb")
             withInitScript("initdb/schema.sql")
         }
 
@@ -52,28 +54,28 @@ internal class TaskMapperTest {
         fun `Taskを作成および取得できることを確認するテスト`() {
             // given
             val taskName = "task1"
-            val assigned = "assignee"
-            val task = Task.create(taskName, assigned)
+            val assignee = "assignee1"
+            val task = Task.create(taskName, assignee)
 
             // when
             taskMapper.insert(task)
-            val tasks = taskMapper.findByAssigned(assigned)
+            val tasks = taskMapper.findByAssigned(assignee)
 
             // then
             SoftAssertions().apply {
                 assertThat(tasks.size).isEqualByComparingTo(1)
                 assertThat(tasks[0].taskName).isEqualTo(taskName)
-                assertThat(tasks[0].assigned).isEqualTo(assigned)
+                assertThat(tasks[0].assignee).isEqualTo(assignee)
             }.assertAll()
         }
 
         @Test
         fun `作成していないTaskを取得できないことを確認するテスト`() {
             // given
-            val assigned = "assignee"
+            val assignee = "assignee1"
 
             // when
-            val tasks = taskMapper.findByAssigned(assigned)
+            val tasks = taskMapper.findByAssigned(assignee)
 
             // then
             SoftAssertions().apply {
@@ -88,12 +90,12 @@ internal class TaskMapperTest {
         fun `Taskを作成および取得できることを確認するテスト`() {
             // given
             val taskName = "task1"
-            val assigned = "assignee"
-            val expected = Task.create(taskName, assigned)
+            val assignee = "assignee1"
+            val expected = Task.create(taskName, assignee)
 
             // when
             taskMapper.insert(expected)
-            val actual = taskMapper.findByTaskNameAndAssigned(taskName, assigned)
+            val actual = taskMapper.findByTaskNameAndAssigned(taskName, assignee)
 
             // then
             SoftAssertions().apply {
@@ -108,10 +110,10 @@ internal class TaskMapperTest {
         fun `作成していないTaskを取得できないことを確認するテスト`() {
             // given
             val taskName = "task1"
-            val assigned = "assignee"
+            val assignee = "assignee1"
 
             // when
-            val tasks = taskMapper.findByTaskNameAndAssigned(taskName, assigned)
+            val tasks = taskMapper.findByTaskNameAndAssigned(taskName, assignee)
 
             // then
             SoftAssertions().apply {

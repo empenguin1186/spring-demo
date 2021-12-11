@@ -13,17 +13,17 @@ interface TaskMapper {
     @Insert("""
        INSERT INTO Tasks (
            task_name,
-           assigned
+           assignee
        ) VALUES (
            #{taskName},
-           #{assigned}
+           #{assignee}
        )
     """)
     fun insert(task: Task)
 
-    @Select("""SELECT * FROM Tasks WHERE assigned = #{assigned}""")
-    fun findByAssigned(assigned: String): List<Task>
+    @Select("""SELECT * FROM Tasks WHERE assignee = #{assignee}""")
+    fun findByAssigned(assignee: String): List<Task>
 
-    @Select("""SELECT * FROM Tasks WHERE task_name = #{taskName} AND assigned = #{assigned}""")
-    fun findByTaskNameAndAssigned(taskName: String, assigned: String): Task?
+    @Select("""SELECT * FROM Tasks WHERE task_name = #{taskName} AND assignee = #{assignee}""")
+    fun findByTaskNameAndAssigned(taskName: String, assignee: String): Task?
 }

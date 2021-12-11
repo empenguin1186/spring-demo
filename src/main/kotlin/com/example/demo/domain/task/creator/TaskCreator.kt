@@ -13,8 +13,8 @@ class TaskCreator(
     private val taskRepository: TaskRepository,
     private val activityHistoryRepository: ActivityHistoryRepository
 ) {
-    fun create(taskName: String, assigned: String) {
-        val task = Task.create(TaskCreateParameterImpl(taskName, assigned))
+    fun create(taskName: String, assignee: String) {
+        val task = Task.create(TaskCreateParameterImpl(taskName, assignee))
         taskRepository.insert(task)
 
         val activityHistory = ActivityHistory.createFromTask(task)
@@ -23,15 +23,15 @@ class TaskCreator(
 
     @Retryable(interceptor = "dataSourceRetryInterceptor")
     @Throws(DataSourceRetryableException::class)
-    fun createWithEventListener(taskName: String, assigned: String) {
-        val task = Task.create(taskName, assigned)
+    fun createWithEventListener(taskName: String, assignee: String) {
+        val task = Task.create(taskName, assignee)
         taskRepository.insert(task)
     }
 }
 
 sealed interface TaskCreateParameter{
     val taskName: String
-    val assigned: String
+    val assignee: String
 }
 
-private data class TaskCreateParameterImpl(override val taskName: String, override val assigned: String): TaskCreateParameter
+private data class TaskCreateParameterImpl(override val taskName: String, override val assignee: String): TaskCreateParameter
