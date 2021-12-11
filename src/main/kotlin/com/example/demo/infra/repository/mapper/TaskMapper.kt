@@ -1,6 +1,7 @@
 package com.example.demo.infra.repository.mapper
 
 import com.example.demo.domain.task.Task
+import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
@@ -26,4 +27,7 @@ interface TaskMapper {
 
     @Select("""SELECT * FROM Tasks WHERE task_name = #{taskName} AND assignee = #{assignee}""")
     fun findByTaskNameAndAssignee(taskName: String, assignee: String): Task?
+
+    @Delete("""DELETE FROM Tasks WHERE task_name = #{taskName} AND assignee = #{assignee}""")
+    fun deleteByTaskNameAndAssignee(taskName: String, assignee: String)
 }
