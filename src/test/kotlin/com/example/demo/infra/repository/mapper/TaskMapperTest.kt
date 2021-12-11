@@ -1,0 +1,122 @@
+package com.example.demo.infra.repository.mapper
+
+import com.example.demo.domain.task.Task
+import org.assertj.core.api.SoftAssertions
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import org.mybatis.spring.boot.test.autoconfigure.MybatisTest
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
+import org.testcontainers.containers.MySQLContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.utility.DockerImageName
+
+@MybatisTest
+@Testcontainers
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+internal class TaskMapperTest {
+
+    @Autowired
+    private lateinit var taskMapper: TaskMapper
+
+    companion object {
+        @Container
+        @JvmStatic
+        val mysqlContainer = MySQLContainer<Nothing>(DockerImageName.parse("mysql")).apply {
+            withUsername("devuser")
+            withPassword("devuser")
+            withDatabaseName("devdb")
+            withInitScript("initdb/schema.sql")
+        }
+
+        @DynamicPropertySource
+        @JvmStatic
+        fun setUp(registry: DynamicPropertyRegistry) {
+            registry.add("spring.datasource.url", mysqlContainer::getJdbcUrl)
+            registry.add("spring.datasource.username", mysqlContainer::getUsername)
+            registry.add("spring.datasource.password", mysqlContainer::getPassword)
+        }
+    }
+
+    /**
+     * Kotlin ではデフォルトではネストしたクラスは Java での static クラスに近いものとなる
+     * @Nested を付与するクラスは非static である必要があるため、Kotlin では inner を付与する
+     * https://junit.org/junit5/docs/current/user-guide/#writing-tests-nested
+     */
+    @Nested
+    inner class FindByAssigned {
+        @Test
+        fun `Taskを作成および取得できることを確認するテスト`() {
+            // given
+            val taskName = "task1"
+            val assigned = "assignee"
+            val task = Task.create(taskName, assigned)
+
+            // when
+            taskMapper.insert(task)
+            val tasks = taskMapper.findByAssigned(assigned)
+
+            // then
+            SoftAssertions().apply {
+                assertThat(tasks.size).isEqualByComparingTo(1)
+                assertThat(tasks[0].taskName).isEqualTo(taskName)
+                assertThat(tasks[0].assigned).isEqualTo(assigned)
+            }.assertAll()
+        }
+
+        @Test
+        fun `作成していないTaskを取得できないことを確認するテスト`() {
+            // given
+            val assigned = "assignee"
+
+            // when
+            val tasks = taskMapper.findByAssigned(assigned)
+
+            // then
+            SoftAssertions().apply {
+                assertThat(tasks.size).isEqualTo(0)
+            }.assertAll()
+        }
+    }
+
+    @Nested
+    inner class FindByTaskNameAndAssigned {
+        @Test
+        fun `Taskを作成および取得できることを確認するテスト`() {
+            // given
+            val taskName = "task1"
+            val assigned = "assignee"
+            val expected = Task.create(taskName, assigned)
+
+            // when
+            taskMapper.insert(expected)
+            val actual = taskMapper.findByTaskNameAndAssigned(taskName, assigned)
+
+            // then
+            SoftAssertions().apply {
+                actual.apply {
+                    assertThat(actual).isNotNull
+                    assertThat(actual).isEqualTo(expected)
+                }
+            }.assertAll()
+        }
+
+        @Test
+        fun `作成していないTaskを取得できないことを確認するテスト`() {
+            // given
+            val taskName = "task1"
+            val assigned = "assignee"
+
+            // when
+            val tasks = taskMapper.findByTaskNameAndAssigned(taskName, assigned)
+
+            // then
+            SoftAssertions().apply {
+                assertThat(tasks).isNull()
+            }.assertAll()
+        }
+    }
+}

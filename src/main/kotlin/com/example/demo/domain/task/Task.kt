@@ -4,7 +4,7 @@ import com.example.demo.domain.shared.event.DomainEventStorable
 import com.example.demo.domain.task.creator.TaskCreateParameter
 
 /** タスク */
-class Task private constructor(
+data class Task private constructor(
     val taskName: String,
     val assigned: String
 ) : DomainEventStorable() {

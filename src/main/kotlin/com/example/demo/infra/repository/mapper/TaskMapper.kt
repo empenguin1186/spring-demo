@@ -23,4 +23,7 @@ interface TaskMapper {
 
     @Select("""SELECT * FROM Tasks WHERE assigned = #{assigned}""")
     fun findByAssigned(assigned: String): List<Task>
+
+    @Select("""SELECT * FROM Tasks WHERE task_name = #{taskName} AND assigned = #{assigned}""")
+    fun findByTaskNameAndAssigned(taskName: String, assigned: String): Task?
 }
